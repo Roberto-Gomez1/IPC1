@@ -1,0 +1,289 @@
+
+package practica1;
+
+
+import java.io.*;
+import java.util.*;
+
+public class Practica1 {
+    
+    static Scanner cs;
+    static Scanner entrada;
+    static String sc;
+    static String mensaje;
+    static int [][] matrizM;
+    static String [] letras = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","Ñ","O","P","Q","R","S","T","U","V","W","X","Y","Z", " "};
+    static int [] numeros;
+    static int [][] matrizA = new int [3][3];
+    static int [][] matrizB;
+    
+    public static void main(String[] args) {
+        encriptar();
+    }
+    
+
+    public static void menu() {
+        int opcion=0;
+        do{
+        System.out.println("=======================");
+        System.out.println("Bienvenido al programa");
+        System.out.println("Por favor, eliga una opcion");
+        System.out.println("1. Encriptar");
+        System.out.println("2. Desencriptar");
+        System.out.println("3. Ataque con texto claro");
+        System.out.println("4. Generar reportes");
+        System.out.println("=======================\n");
+        
+       try{
+           cs = new Scanner(System.in);
+           opcion = cs.nextInt();
+           
+           switch(opcion ){
+               case 1:
+                   encriptar();
+                   break;
+
+               case 2:
+                   break;
+                   
+               case 3:
+                    break;
+               
+               case 4:
+                   break;
+                   
+               case 5:
+                   System.out.println("Gracias por preferirnos :D");
+                   System.exit(0);
+           }
+       
+    }catch(Exception e){
+        
+    }
+    }while(opcion !=5);  
+  }
+    public static void encriptar() {
+        int p1 = 0;
+        do {
+            System.out.println("=======================");
+            System.out.println("Menu encriptar");
+            System.out.println("1. Ingreso mensaje");
+            System.out.println("2. Ingreso Matriz Clave A");
+            System.out.println("3. Ingreso Matriz Clave B");
+            System.out.println("4. Encriptar");
+            System.out.println("=======================\n");
+
+            //try{
+            cs = new Scanner(System.in);
+            p1 = cs.nextInt();
+
+            switch (p1) {
+                case 1:
+                    System.out.println("\nIngresa tu mensaje\n");
+                    cs = new Scanner(System.in, "ISO-8859-1");
+                    mensaje = cs.nextLine();
+                    System.out.println("\n");
+                    conversor(mensaje.toUpperCase());
+                    break;
+
+                case 2:
+                    leer();
+                    mostrar(matrizA);
+                    break;
+
+                case 3:
+                    //leermb();
+                    
+                    break;
+
+                case 4:
+                    break;
+
+                case 5:
+                    System.out.println("Gracias por preferirnos :D");
+                    System.exit(0);
+            }
+
+           // }catch(Exception e){
+            //}
+        } while (p1 != 5);
+
+    }
+    public static int[][] conversor(String msg) {
+        boolean encontrado;
+        String caracter;
+        int j;
+        int aux;
+        int conteo = 0;
+
+        int auxiliar = 0;
+
+        if (msg.length() % 3 != 0) {
+
+            for (int i = 1; i < 3; i++) {
+
+                if ((msg.length() + i) % 3 == 0) {
+
+                    auxiliar = i;
+                }
+
+            }
+
+        }
+
+        aux = msg.length() / 3;
+
+        if (msg.length() % 3 > 0) {
+            aux++;
+        }
+
+        if (msg.length() % 3 == 0) {
+
+            numeros = new int[msg.length()];
+        } else {
+
+            numeros = new int[msg.length() + auxiliar];
+
+        }
+
+        System.out.println(auxiliar);
+
+        for (int i = 0; i < msg.length(); i++) {
+            encontrado = false;
+            j = 0;
+            while (!encontrado) {
+                caracter = String.valueOf(msg.charAt(i));
+
+                if (j < 28) {
+                    if (caracter.equals(letras[j])) {
+                        encontrado = true;
+                        numeros[i] = j;
+                        conteo++;
+                    }
+                    j++;
+                } else {
+                    encontrado = true;
+                    numeros[i] = 27;
+                    conteo++;
+
+                }
+            }
+        }
+
+        if (msg.length() % 3 != 0) {
+            for (int relleno = msg.length(); relleno < msg.length() + auxiliar; relleno++) {
+                numeros[relleno] = 27;
+            }
+        }
+
+        matrizM = new int[3][aux];
+
+        for (int filas = 0; filas < 3; filas++) {
+            for (int columnas = 0; columnas < aux; columnas++) {
+                matrizM[filas][columnas] = numeros[(columnas * 3) + filas];
+            }
+        }
+
+        for (int p = 0; p < numeros.length; p++) {
+            //System.out.println(numeros.length);
+            System.out.print(numeros[p] + " ");
+        }
+        System.out.println("\n");
+        System.out.println(" num" + "canridad " + numeros.length);
+
+        for (int filas = 0; filas < 3; filas++) {
+            for (int columnas = 0; columnas < aux; columnas++) {
+                System.out.print("[ " + matrizM[filas][columnas] + " ]"+ "\t");
+            }
+            System.out.println("");
+        }
+
+        return matrizM;
+
+    }
+    public static void leer(){
+        Scanner cs1 = new Scanner(System.in);
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+
+        try {
+
+            System.out.println("Ingrese la ruta del archivo que desea leer: ");
+            String ruta = cs1.nextLine();
+
+            archivo = new File(ruta);
+            fr = new FileReader(archivo);
+            br = new BufferedReader(fr);
+
+            String linea;
+            int cF = 0;
+
+            while ((linea = br.readLine()) != null) {
+                String[] nm = linea.split(",");
+                for (int i = 0; i < nm.length; i++) {
+                    matrizA[cF][i] = Integer.parseInt(nm[i]);
+                }
+                cF++;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+            try {
+                if (null != fr) {
+                    fr.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+    }
+    public static void mostrar(int[][] matri){
+        for (int i = 0; i < matri.length ; i++) {
+            for (int m = 0; m < matri[i].length; m++) {
+                System.out.print("["+matri[i][m]+"]");
+            }
+            System.out.println("");
+        }
+    }
+    public static void leermb() {
+        Scanner cs1 = new Scanner(System.in);
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+
+        try {
+
+            System.out.println("Ingrese la ruta del archivo que desea leer: ");
+            String ruta = cs1.nextLine();
+            archivo = new File(ruta);
+            fr = new FileReader(archivo);
+            br = new BufferedReader(fr);
+
+            String linea;
+            int cF = 0;
+
+            while ((linea = br.readLine()) != null) {
+                String[] nm = linea.split(",");
+                for (int i = 0; i < nm.length; i++) {
+                    matrizB[cF][i] = Integer.parseInt(nm[i]);
+                }
+                cF++;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+            try {
+                if (null != fr) {
+                    fr.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+    }
+}
+ 
+
