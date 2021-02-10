@@ -1,0 +1,28 @@
+    
+    static int [][] matriz_m ;
+    public static void encripm() {
+        matriz_m = new int[matrizA.length][matrizM[0].length];
+
+        for (int i = 0; i < matriz_m.length; i++) {
+            for (int j = 0; j < matriz_m[0].length; j++) {
+                int resultado = 0;
+                for (int k = 0; k < matrizM.length; k++) {
+                    resultado += (Integer.parseInt(matrizA[i][k]) * matrizM[k][j]);
+                }
+                matriz_m[i][j] = resultado;
+            }
+        }
+        for (int i = 0; i < matriz_m.length; i++) {
+            for (int j = 0; j < matriz_m[0].length; j++) {
+                matriz_m[i][j] += Integer.parseInt(matrizBB[i][j]);
+            }
+        }
+        for (int i = 0; i < matriz_m.length; i++) {
+            for (int j = 0; j < matriz_m[0].length; j++) {
+                System.out.print("[ " + matriz_m[i][j] + " ]" + "\t");
+            }
+            System.out.println("");
+        }
+        return;
+    }
+    
