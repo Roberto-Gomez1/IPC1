@@ -1,9 +1,9 @@
-package practica1;
+package pruebasleer;
 
 import java.io.*;
 import java.util.*;
 
-public class Practica1 {
+public class Pruebasleer {
 
     static String ruta;
     static int ColumnsM;
@@ -22,15 +22,14 @@ public class Practica1 {
     public static void menu() {
         int opcion = 0;
         do {
-            System.out.println("=======================");
-            System.out.println("Bienvenido al programa");
-            System.out.println("Por favor, eliga una opcion");
-            System.out.println("1. Encriptar");
-            System.out.println("2. Desencriptar");
-            System.out.println("3. Ataque con texto claro");
-            System.out.println("4. Generar reportes");
-            System.out.println("5. Salir del programa");
-            System.out.println("=======================\n");
+            System.out.println("============Bienvenido al programa===========");
+            System.out.println("||\tPor favor, eliga una opcion\t   ||");
+            System.out.println("||\t1. Encriptar\t\t\t   ||");
+            System.out.println("||\t2. Desencriptar\t \t\t   ||");
+            System.out.println("||\t3. Ataque con texto claro\t   ||");
+            System.out.println("||\t4. Generar reportes\t \t   ||");
+            System.out.println("||\t5. Salir del programa\t \t   ||");
+            System.out.println("=============================================\n");
 
             //try {
                 cs = new Scanner(System.in);
@@ -42,13 +41,15 @@ public class Practica1 {
                         break;
 
                     case 2:
-                        desencriptar();
+                        inversa();
+                        multiplicacion();
                         break;
 
                     case 3:
                         break;
 
                     case 4:
+                        reporte();
                         break;
 
                     case 5:
@@ -65,14 +66,13 @@ public class Practica1 {
     public static void encriptar() {
         int p1 = 0;
         do {
-            System.out.println("=======================");
-            System.out.println("Menu encriptar");
-            System.out.println("1. Ingreso mensaje");
-            System.out.println("2. Ingreso Matriz Clave A");
-            System.out.println("3. Ingreso Matriz Clave B");
-            System.out.println("4. Encriptar");
-            System.out.println("5. Salir al menu principal");
-            System.out.println("=======================\n");
+            System.out.println("==============Menu encriptar==============");
+            System.out.println("||\t1. Ingreso mensaje\t\t||");
+            System.out.println("||\t2. Ingreso Matriz Clave A\t||");
+            System.out.println("||\t3. Ingreso Matriz Clave B\t||");
+            System.out.println("||\t4. Encriptar\t\t\t||");
+            System.out.println("||\t5. Salir al menu principa\t||");
+            System.out.println("==========================================\n");
 
             try{
             cs = new Scanner(System.in);
@@ -320,24 +320,25 @@ public class Practica1 {
 
     }
     
-    static int [][] matriz_m ;
+    static double [][] matriz_m ;
     public static void encripm() {
-        matriz_m = new int[matrizA.length][matrizM[0].length];
+        matriz_m = new double[matrizA.length][matrizM[0].length];
 
         for (int i = 0; i < matriz_m.length; i++) {
             for (int j = 0; j < matriz_m[0].length; j++) {
                 int resultado = 0;
                 for (int k = 0; k < matrizM.length; k++) {
-                    resultado += (Integer.parseInt(matrizA[i][k]) * matrizM[k][j]);
+                    resultado += (Double.parseDouble(matrizA[i][k]) * matrizM[k][j]);
                 }
                 matriz_m[i][j] = resultado;
             }
         }
         for (int i = 0; i < matriz_m.length; i++) {
             for (int j = 0; j < matriz_m[0].length; j++) {
-                matriz_m[i][j] += Integer.parseInt(matrizBB[i][j]);
+                matriz_m[i][j] += Double.parseDouble(matrizBB[i][j]);
             }
         }
+        
         for (int i = 0; i < matriz_m.length; i++) {
             for (int j = 0; j < matriz_m[0].length; j++) {
                 System.out.print("[ " + matriz_m[i][j] + " ]" + "\t");
@@ -347,8 +348,131 @@ public class Practica1 {
         return;
     }
     
-    public static void desencriptar() {
+    
+    public static void reporte(){
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        try {
+            fichero = new FileWriter("Reporte.html");
+            pw = new PrintWriter(fichero);
+            pw.println("<html><head><title>Reporte</title>");
+            pw.println("<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl\" crossorigin=\"anonymous\">");
+            pw.println("</head><body>");
+            pw.println("<table class=\"table table-hover\">");
+
+            for (int i = 0; i < matrizM.length; i++) {
+                pw.println("<tr class=\"table-primary\">");
+                for (int j = 0; j < matrizM[0].length; j++) {
+                    pw.print("<th>" + matrizM[i][j] + "</th>");
+                }
+                pw.println("</tr>");
+            }
+            pw.println("</table>");
+            
+                        pw.println("<table class=\"table table-hover\">");
+
+            for (int i = 0; i < matrizA.length; i++) {
+                pw.println("<tr class=\"table-primary\">");
+                for (int j = 0; j < matrizA[0].length; j++) {
+                    pw.print("<th>" + matrizA[i][j] + "</th>");
+                }
+                pw.println("</tr>");
+            }
+            pw.println("</table>");
+                        pw.println("<table class=\"table table-hover\">");
+
+            for (int i = 0; i < matrizBB.length; i++) {
+                pw.println("<tr class=\"table-primary\">");
+                for (int j = 0; j < matrizBB[0].length; j++) {
+                    pw.print("<th>" + matrizBB[i][j] + "</th>");
+                }
+                pw.println("</tr>");
+            }
+            pw.println("</table>");
+                        pw.println("<table class=\"table table-hover\">");
+
+            for (int i = 0; i < matriz_m.length; i++) {
+                pw.println("<tr class=\"table-primary\">");
+                for (int j = 0; j < matriz_m[0].length; j++) {
+                    pw.print("<th>" + matriz_m[i][j] + "</th>");
+                }
+                pw.println("</tr>");
+            }
+            pw.println("</table>");
+            pw.println("</body></html>");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (null != fichero) {
+                    fichero.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
         
     }
 
+    
+    static double [][] matriz_r;
+    static double [][] matrizI = new double [3][3];
+    public static double [][] inversa() {
+        double det = 0;
+        for (int i = 0; i < 3; i++) {
+            det = det + (Double.parseDouble(matrizA[0][i]) * (Double.parseDouble(matrizA[1][(i + 1) % 3]) * Double.parseDouble(matrizA[2][(i + 2) % 3]) - Double.parseDouble(matrizA[1][(i + 2) % 3]) * Double.parseDouble(matrizA[2][(i + 1) % 3])));
+        }
+
+        //System.out.println("\nDeterminante = " + det);
+
+        //System.out.println("\nMatriz inversa: ");
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                //System.out.print("[ " +((Double.parseDouble(matrizA[(j + 1) % 3][(i + 1) % 3]) * Double.parseDouble(matrizA[(j + 2) % 3][(i + 2) % 3]) - (Double.parseDouble(matrizA[(j + 1) % 3][(i + 2) % 3]) * Double.parseDouble(matrizA[(j + 2) % 3][(i + 1) % 3]))) / det) + " ]\t");
+                matrizI[i][j] = ((Double.parseDouble(matrizA[(j + 1) % 3][(i + 1) % 3]) * Double.parseDouble(matrizA[(j + 2) % 3][(i + 2) % 3]) - (Double.parseDouble(matrizA[(j + 1) % 3][(i + 2) % 3]) * Double.parseDouble(matrizA[(j + 2) % 3][(i + 1) % 3]))) / det);
+            }
+            System.out.print("\n");
+        }
+        return matrizI;
+    }
+    
+    static double [][] matrizres;
+    static double [][] matriz_res;
+    public static double [][] multiplicacion(){
+        matrizres = new double[matriz_m.length][matrizBB[0].length];
+
+        for (int i = 0; i < matrizres.length; i++) {
+            for (int j = 0; j < matrizres[0].length; j++) {
+                matrizres[i][j] = matriz_m[i][j] - Double.parseDouble(matrizBB[i][j]);
+                //System.out.print("[ " + matrizres[i][j] + " ]\t");
+            }
+            //System.out.println("");
+        }
+            //A^-1*(C-B) = M
+        matriz_res = new double[matrizres.length][matrizres[0].length];
+
+        for (int i = 0; i < matrizres[0].length; i++) {
+            for (int j = 0; j < matrizI.length; j++) {
+                double resultado = 0;
+                for (int k = 0; k < matrizI[0].length; k++) {
+                    resultado += (matrizI[j][k] * matrizres[k][i]);
+                }
+                matriz_res[j][i] = (int)Math.round(resultado);
+            }
+        }
+
+        
+        for (int i = 0; i < matriz_res.length; i++) {
+            for (int j = 0; j < matriz_res[0].length; j++) {
+                System.out.print("[ " + (int)matriz_res[i][j] + " ]\t");
+            }
+            System.out.println("");
+        }     
+        return matriz_res;
+    }
+
+    public static void pasar(){
+        
+    }
 }
