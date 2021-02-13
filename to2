@@ -1,0 +1,532 @@
+package pruebasleer;
+
+import java.io.*;
+import java.util.*;
+
+public class Pruebasleer {
+
+    static String ruta;
+    static int ColumnsM;
+    public static Scanner cs = new Scanner(System.in);
+    static Scanner entrada;
+    static String sc;
+    static String mensaje;
+    static int[][] matrizM;
+    static String[] letras = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", " "};
+    static int[] numeros;
+
+    public static void main(String[] args) {
+        menu();
+    }
+
+    public static void menu() {
+        int opcion = 0;
+        do {
+            System.out.println("\n============Bienvenido al programa===========");
+            System.out.println("||\tPor favor, eliga una opcion\t   ||");
+            System.out.println("||\t1. Encriptar\t\t\t   ||");
+            System.out.println("||\t2. Desencriptar\t \t\t   ||");
+            System.out.println("||\t3. Ataque con texto claro\t   ||");
+            System.out.println("||\t4. Generar reportes\t \t   ||");
+            System.out.println("||\t5. Salir del programa\t \t   ||");
+            System.out.println("=============================================\n");
+
+            //try {
+            cs = new Scanner(System.in);
+            opcion = cs.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    encriptar();
+                    break;
+
+                case 2:
+                    inversa();
+                    multiplicacion();
+                    pasar();
+                    break;
+
+                case 3:
+                    break;
+
+                case 4:
+                    reporte();
+                    break;
+
+                case 5:
+                    System.out.println("Gracias por preferirnos :D");
+                    System.exit(0);
+            }
+
+            //} catch (Exception e) {
+            //}
+        } while (opcion != 5);
+    }
+
+    public static void encriptar() {
+        int p1 = 0;
+        do {
+            System.out.println("\n==============Menu encriptar==============");
+            System.out.println("||\t1. Ingreso mensaje\t\t||");
+            System.out.println("||\t2. Ingreso Matriz Clave A\t||");
+            System.out.println("||\t3. Ingreso Matriz Clave B\t||");
+            System.out.println("||\t4. Encriptar\t\t\t||");
+            System.out.println("||\t5. Salir al menu principa\t||");
+            System.out.println("==========================================\n");
+
+            try {
+                cs = new Scanner(System.in);
+                p1 = cs.nextInt();
+
+                switch (p1) {
+                    case 1:
+                        System.out.println("\nIngresa tu mensaje\n");
+                        cs = new Scanner(System.in, "ISO-8859-1");
+                        mensaje = cs.nextLine();
+                        System.out.println("\n");
+                        conversor(mensaje.toUpperCase());
+                        break;
+
+                    case 2:
+                        Scanner cs1 = new Scanner(System.in);
+                        System.out.println("Ingrese la ruta del archivo que desea leer: ");
+                        ruta = cs1.nextLine();
+                        LeerMA();
+                        break;
+
+                    case 3:
+                        LeerMB();
+                        break;
+
+                    case 4:
+                        encripm();
+                        break;
+
+                    case 5:
+                        menu();
+                        break;
+                    default:
+                        System.out.println("Ingrese una opcion valida");
+                        break;
+                }
+
+            } catch (Exception e) {
+            }
+        } while (p1 != 5);
+
+    }
+
+    public static int[][] conversor(String msg) {
+        boolean encontrado;
+        String caracter;
+        int j;
+        int aux;
+        int conteo = 0;
+
+        int auxiliar = 0;
+
+        if (msg.length() % 3 != 0) {
+
+            for (int i = 1; i < 3; i++) {
+
+                if ((msg.length() + i) % 3 == 0) {
+
+                    auxiliar = i;
+                }
+
+            }
+
+        }
+
+        aux = msg.length() / 3;
+
+        if (msg.length() % 3 > 0) {
+            aux++;
+        }
+
+        if (msg.length() % 3 == 0) {
+            numeros = new int[msg.length()];
+            ColumnsM = msg.length() / 3;
+
+        } else {
+            numeros = new int[msg.length() + auxiliar];
+            ColumnsM = (msg.length() + auxiliar) / 3;
+        }
+
+        for (int i = 0; i < msg.length(); i++) {
+            encontrado = false;
+            j = 0;
+            while (!encontrado) {
+                caracter = String.valueOf(msg.charAt(i));
+
+                if (j < 28) {
+                    if (caracter.equals(letras[j])) {
+                        encontrado = true;
+                        numeros[i] = j;
+                        conteo++;
+                    }
+                    j++;
+                } else {
+                    encontrado = true;
+                    numeros[i] = 27;
+                    conteo++;
+
+                }
+            }
+        }
+
+        if (msg.length() % 3 != 0) {
+            for (int relleno = msg.length(); relleno < msg.length() + auxiliar; relleno++) {
+                numeros[relleno] = 27;
+            }
+        }
+
+        matrizM = new int[3][aux];
+
+        for (int filas = 0; filas < 3; filas++) {
+            for (int columnas = 0; columnas < aux; columnas++) {
+                matrizM[filas][columnas] = numeros[(columnas * 3) + filas];
+            }
+        }
+
+        for (int p = 0; p < numeros.length; p++) {
+            //System.out.println(numeros.length);
+            System.out.print(numeros[p] + " ");
+        }
+        System.out.println("\n");
+
+        for (int filas = 0; filas < 3; filas++) {
+            for (int columnas = 0; columnas < aux; columnas++) {
+                System.out.print("[ " + matrizM[filas][columnas] + " ]" + "\t");
+            }
+            System.out.println("");
+        }
+
+        return matrizM;
+
+    }
+
+    static String matrizA[][];
+    public static int rowsMA;
+    public static int columnsMA;
+
+    public static void LeerMA() {
+
+        try {
+            File txt = new File(ruta);
+            Scanner reader = new Scanner(txt);
+            String data = "";
+
+            while (reader.hasNextLine()) {
+                data += reader.nextLine() + "\n";
+            }
+
+            String rows[] = data.split("\n");
+            rowsMA = rows.length;
+
+            String columns[] = rows[0].split(",");
+            columnsMA = columns.length;
+
+            matrizA = new String[rowsMA][columnsMA];
+            if (rowsMA <= 3) {
+                if (columnsMA <= 3) {
+
+                    for (int i = 0; i < rows.length; i++) {
+
+                        columns = rows[i].split(",");
+
+                        for (int j = 0; j < columns.length; j++) {
+
+                            matrizA[i][j] = (columns[j]);
+
+                        }
+                    }
+                    System.out.println("\nFueron ingresdaos: " + columnsMA + " columnas");
+
+                    for (int i = 0; i < rows.length; i++) {
+                        for (int j = 0; j < columnsMA; j++) {
+                            System.out.print("|" + matrizA[i][j] + "|\t");
+                        }
+                        System.out.println("\t");
+                    }
+                }
+            } else {
+                System.out.println("Ingrese una matriz valida");
+            }
+            reader.close();
+        } catch (Exception e) {
+            System.out.println("Hubo un error en cargar la matriz: " + e);
+        }
+
+    }
+
+    static String matrizBB[][];
+    public static int rowsMB;
+    public static int columnsMB;
+
+    public static void LeerMB() {
+        Scanner cs1 = new Scanner(System.in);
+        try {
+            System.out.println("Ingrese la ruta del archivo que desea leer: ");
+            String rt = cs1.nextLine();
+            File txt = new File(rt);
+            Scanner reader = new Scanner(txt);
+            String data = "";
+
+            while (reader.hasNextLine()) {
+                data += reader.nextLine() + "\n";
+            }
+
+            String rows[] = data.split("\n");
+            rowsMB = rows.length;
+
+            String columns[] = rows[0].split(",");
+            columnsMB = columns.length;
+
+            matrizBB = new String[rowsMB][columnsMB];
+            if (rowsMB <= 3) {
+                for (int i = 0; i < rows.length; i++) {
+
+                    columns = rows[i].split(",");
+
+                    for (int j = 0; j < columns.length; j++) {
+
+                        matrizBB[i][j] = (columns[j]);
+
+                    }
+                }
+
+                if (ColumnsM == columnsMB) {
+                    for (int i = 0; i < rows.length; i++) {
+                        for (int j = 0; j < columnsMB; j++) {
+                            System.out.print("|" + matrizBB[i][j] + "|\t");
+                        }
+                        System.out.println("\t");
+                    }
+
+                } else {
+                    System.out.println("Las columnas no coinciden");
+                    System.out.println(ColumnsM + " ||| " + columnsMB);
+                }
+
+            } else {
+                System.out.println("Ingrese una matriz valida");
+            }
+
+            reader.close();
+        } catch (Exception e) {
+            System.out.println("Hubo un error en cargar las matrices " + e);
+        }
+
+    }
+
+    static double[][] matriz_m;
+    public static void encripm() {
+        matriz_m = new double[matrizA.length][matrizM[0].length];
+
+        for (int i = 0; i < matriz_m.length; i++) {
+            for (int j = 0; j < matriz_m[0].length; j++) {
+                int resultado = 0;
+                for (int k = 0; k < matrizM.length; k++) {
+                    resultado += (Double.parseDouble(matrizA[i][k]) * matrizM[k][j]);
+                }
+                matriz_m[i][j] = resultado;
+            }
+        }
+        for (int i = 0; i < matriz_m.length; i++) {
+            for (int j = 0; j < matriz_m[0].length; j++) {
+                matriz_m[i][j] += Double.parseDouble(matrizBB[i][j]);
+            }
+        }
+
+        for (int i = 0; i < matriz_m.length; i++) {
+            for (int j = 0; j < matriz_m[0].length; j++) {
+                System.out.print("[ " + matriz_m[i][j] + " ]" + "\t");
+            }
+            System.out.println("");
+        }
+    }
+
+    public static void reporte() {
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        try {
+            fichero = new FileWriter("Reporte.html");
+            pw = new PrintWriter(fichero);
+            pw.println("<html><head><title>Reporte</title>");
+            pw.println("<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl\" crossorigin=\"anonymous\">");
+            pw.println("</head><body>");
+
+            pw.println("Reporte Encriptar");
+            pw.println("El texto a encriptar fue el siguiente" + mensaje + ".");
+            pw.println("");
+            pw.println("<table class=\"table table-hover\">");
+
+            for (int i = 0; i < matrizM.length; i++) {
+                pw.println("<tr class=\"table-primary\">");
+                for (int j = 0; j < matrizM[0].length; j++) {
+                    pw.print("<th>" + matrizM[i][j] + "</th>");
+                }
+                pw.println("</tr>");
+            }
+            pw.println("</table>");
+
+            pw.println("<table class=\"table table-hover\">");
+
+            for (int i = 0; i < matrizA.length; i++) {
+                pw.println("<tr class=\"table-primary\">");
+                for (int j = 0; j < matrizA[0].length; j++) {
+                    pw.print("<th>" + matrizA[i][j] + "</th>");
+                }
+                pw.println("</tr>");
+            }
+            pw.println("</table>");
+            pw.println("<table class=\"table table-hover\">");
+
+            for (int i = 0; i < matrizBB.length; i++) {
+                pw.println("<tr class=\"table-primary\">");
+                for (int j = 0; j < matrizBB[0].length; j++) {
+                    pw.print("<th>" + matrizBB[i][j] + "</th>");
+                }
+                pw.println("</tr>");
+            }
+            pw.println("</table>");
+            pw.println("<table class=\"table table-hover\">");
+
+            for (int i = 0; i < matriz_m.length; i++) {
+                pw.println("<tr class=\"table-primary\">");
+                for (int j = 0; j < matriz_m[0].length; j++) {
+                    pw.print("<th>" + matriz_m[i][j] + "</th>");
+                }
+                pw.println("</tr>");
+            }
+            pw.println("</table>");
+
+            pw.println("<table class=\"table table-hover\">");
+
+            for (int i = 0; i < matrizI.length; i++) {
+                pw.println("<tr class=\"table-primary\">");
+                for (int j = 0; j < matrizI[0].length; j++) {
+                    pw.print("<th>" + matrizI[i][j] + "</th>");
+                }
+                pw.println("</tr>");
+            }
+            pw.println("</table>");
+
+            pw.println("<table class=\"table table-hover\">");
+
+            for (int i = 0; i < matrizres.length; i++) {
+                pw.println("<tr class=\"table-primary\">");
+                for (int j = 0; j < matrizres[0].length; j++) {
+                    pw.print("<th>" + matrizres[i][j] + "</th>");
+                }
+                pw.println("</tr>");
+            }
+            pw.println("</table>");
+
+            pw.println("<table class=\"table table-hover\">");
+
+            for (int i = 0; i < matriz_res.length; i++) {
+                pw.println("<tr class=\"table-primary\">");
+                for (int j = 0; j < matriz_res[0].length; j++) {
+                    pw.print("<th>" + matriz_res[i][j] + "</th>");
+                }
+                pw.println("</tr>");
+            }
+            pw.println("</table>");
+
+            pw.println("<table class=\"table table-hover\">");
+            pw.println("</body></html>");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (null != fichero) {
+                    fichero.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+
+    }
+
+    static double[][] matrizI = new double[3][3];
+
+    public static double[][] inversa() {
+        double det = 0;
+        for (int i = 0; i < 3; i++) {
+            det = det + (Double.parseDouble(matrizA[0][i]) * (Double.parseDouble(matrizA[1][(i + 1) % 3]) * Double.parseDouble(matrizA[2][(i + 2) % 3]) - Double.parseDouble(matrizA[1][(i + 2) % 3]) * Double.parseDouble(matrizA[2][(i + 1) % 3])));
+        }
+
+        //System.out.println("\nDeterminante = " + det);
+        //System.out.println("\nMatriz inversa: ");
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                //System.out.print("[ " +((Double.parseDouble(matrizA[(j + 1) % 3][(i + 1) % 3]) * Double.parseDouble(matrizA[(j + 2) % 3][(i + 2) % 3]) - (Double.parseDouble(matrizA[(j + 1) % 3][(i + 2) % 3]) * Double.parseDouble(matrizA[(j + 2) % 3][(i + 1) % 3]))) / det) + " ]\t");
+                matrizI[i][j] = ((Double.parseDouble(matrizA[(j + 1) % 3][(i + 1) % 3]) * Double.parseDouble(matrizA[(j + 2) % 3][(i + 2) % 3]) - (Double.parseDouble(matrizA[(j + 1) % 3][(i + 2) % 3]) * Double.parseDouble(matrizA[(j + 2) % 3][(i + 1) % 3]))) / det);
+            }
+            System.out.print("\n");
+        }
+        return matrizI;
+    }
+
+    static double[][] matrizres;
+    static double[][] matriz_res;
+
+    public static double[][] multiplicacion() {
+        matrizres = new double[matriz_m.length][matrizBB[0].length];
+
+        for (int i = 0; i < matrizres.length; i++) {
+            for (int j = 0; j < matrizres[0].length; j++) {
+                matrizres[i][j] = matriz_m[i][j] - Double.parseDouble(matrizBB[i][j]);
+                //System.out.print("[ " + matrizres[i][j] + " ]\t");
+            }
+            //System.out.println("");
+        }
+        //A^-1*(C-B) = M
+        matriz_res = new double[matrizres.length][matrizres[0].length];
+
+        for (int i = 0; i < matrizres[0].length; i++) {
+            for (int j = 0; j < matrizI.length; j++) {
+                double resultado = 0;
+                for (int k = 0; k < matrizI[0].length; k++) {
+                    resultado += (matrizI[j][k] * matrizres[k][i]);
+                }
+                matriz_res[j][i] = (int) Math.round(resultado);
+            }
+        }
+
+        return matriz_res;
+    }
+    
+    
+    static String  men;
+    public static void pasar() {
+for (int i = 0; i < matriz_res[0].length; i++) {
+            for (int j = 0; j < matriz_res.length; j++) {
+                int conteo=0;
+                boolean encontrado;
+                for (int posnumero = 0; posnumero < 28; posnumero++) {
+
+                    if(posnumero < 28) {
+                        
+                        if(posnumero == (int) matriz_res[j][i]) {
+                            System.out.print(letras[posnumero]);
+
+                        }
+                        conteo++;
+                    } else {
+                        encontrado = true;
+                        letras[posnumero] = " ";
+                        posnumero++;
+
+                    }
+                }
+    }
+
+}
+    }
+}
+
