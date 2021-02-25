@@ -1,0 +1,5 @@
+Id,Nombre,Vida
+1,Baya Grana,13
+2,Baya Tamate,10
+3,Baya Maranga,20
+4,Baya Gonlan,15

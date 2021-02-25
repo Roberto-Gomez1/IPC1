@@ -1,0 +1,5 @@
+Id,Tipo
+1,Pokeball
+2,Superball
+3,Ultraball
+4,Masterball

@@ -1,0 +1,9 @@
+Id,Lugar
+1,Ciudad Plateada
+2,Ciudad Celeste
+3,Ciudad Carmín
+4,Ciudad Azulona
+5,Ciudad Fucsia
+6,Ciudad Azafrán
+7,Isla Canela
+8,Ciudad Verde

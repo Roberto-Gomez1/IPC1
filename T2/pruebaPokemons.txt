@@ -1,0 +1,7 @@
+Id,Tipo,Nombre,Vida,Puntos de Ataque,Capturado,Estado
+1,Grass,Bulbasaur,45,4,Capturado,Muerto
+2,Grass,Ivysaur,60,6,Salvaje,Vivo
+3,Grass,Venusaur,80,8,Capturado,Vivo
+4,Fire,Charmander,39,5,Salvaje,Muerto
+5,Fire,Charmeleon,58,6,Salvaje,Vivo
+6,Fire,Charizard,78,8,Capturado,Vivo
